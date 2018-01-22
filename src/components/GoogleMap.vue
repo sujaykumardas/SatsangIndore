@@ -1,44 +1,69 @@
 <template>
-  <div class="google-map" :id="kName"></div>
+	<div class="container">
+		<div  class="maps-container" v-for="(location,index) in locationNames">	
+			<span class="google-map-span">{{location}}</span>	
+  		<div class="google-map" :id="location" ></div><br><br>
+		</div>
+  </div>
 </template>
 
 <script>
 	export default {
 	  name: 'google-map',
-	  props: ['kendraName','viharName'],
+	  props: ['locationDetails'],
 	  data: function () {
 	    return {
-	      kName: this.kendraName + " Map",
-	      vName: this.viharName + " Map",
+	      locationDetailsChild: this.locationDetails,
+	      locationMapAddresses: [],
+	      locationNames: []
 	    }
 	  },
+
 	  methods: {
-	  	showMaps(address) {
+	  	showMaps(addresses,names) {
 		  	const geocoder = new google.maps.Geocoder();
-		    const element = document.getElementById(this.kName)
 		    const options = {
 		      zoom: 14,
 		      mapTypeId: google.maps.MapTypeId.HYBRID
 		    }
-		    const map = new google.maps.Map(element, options);
+		    const map1 = new google.maps.Map(document.getElementById(names[0]), options);
+		    const map2 = new google.maps.Map(document.getElementById(names[1]), options);
 		    geocoder.geocode({
-		      'address': address
+		      'address': addresses[0]
 		   	}, 
 			  function(results, status) {
 			    if(status == google.maps.GeocoderStatus.OK) {
 		        new google.maps.Marker({
 		          position: results[0].geometry.location,
-		          map: map
+		          map: map1
 		        });
-		        map.setCenter(results[0].geometry.location);
+		        map1.setCenter(results[0].geometry.location);
+			    }
+			  });
+			  geocoder.geocode({
+		      'address': addresses[1]
+		   	}, 
+			  function(results, status) {
+			    if(status == google.maps.GeocoderStatus.OK) {
+		        new google.maps.Marker({
+		          position: results[0].geometry.location,
+		          map: map2
+		        });
+		        map2.setCenter(results[0].geometry.location);
 			    }
 			  });
 	  	}
 	  },
-	  mounted: function () {
-	  	console.log(this.kName);
-	  	console.log(this.vName);
-	  	this.showMaps('Sai Mandir,Manavata Nagar,Indore, MP');
+	  watch: {
+	    locationDetailsChild: function () {
+	    	if(typeof this.locationDetailsChild[0]!= "undefined" && typeof this.locationDetailsChild[1]!= "undefined") {
+		    	this.locationMapAddresses.push(this.locationDetailsChild[0]['nearby_address'],this.locationDetailsChild[1]['nearby_address']);
+		    	this.locationNames.push(this.locationDetailsChild[0]['name'],this.locationDetailsChild[1]['name']);	    		
+	    	}
+	    }
+	  },
+	  updated() {
+	  	this.showMaps(this.locationMapAddresses,this.locationNames);
 	  }
 	};
 </script>
@@ -47,8 +72,16 @@
 	.google-map {
 	  width: 300px;
 	  height: 200px;
-	  margin: 0 auto;
-	  top: 80px;
+	  top: 20px;
+	  left: 800px;
 	  background: gray;
+	}
+	.google-map-span{
+		font-weight: bold;
+		padding-left: 800px;
+		color: #87CEFA;
+		font-size: 20px;
+	}
+	.maps-container{
 	}
 </style>
