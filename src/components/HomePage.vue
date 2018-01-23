@@ -5,10 +5,11 @@
 			<h1>SATSANG INDORE</h1>
 		</div>
 		<ul>
-		  <li><a href="#home">Home</a></li>
-		  <li><a href="#contactModal">Contact</a></li>
-		  <li><a href="#about">About</a></li>
-		</ul>
+		  	<li><a href="#home">Home</a></li>
+		  	<li><a href="javascript:void(0)" @click="showContactModal = true" >Contact</a></li>
+		  	<li><a href="#about">About</a></li>
+		</ul><br>
+		<contact-modal v-if="showContactModal" @close="showContactModal = false"></contact-modal>
 		<google-map :locationDetails="locationDetails"></google-map>
 	</div>
 </template>
@@ -26,21 +27,21 @@
 		methods: {
 			getLocations() {
 				let uri = 'http://localhost:4000/locations';
-        this.axios.get(uri).then(response => {
-        	if(response.data.length > 0){
-        		response.data.forEach((currentValue, index) => {
-        			this.locationDetails.push(currentValue);
-        		});
-        	}
-		    })
-		    .catch(err => {
-		    	console.log(err);
-		    });
+	        	this.axios.get(uri).then(response => {
+	        	if(response.data.length > 0){
+	        		response.data.forEach((currentValue, index) => {
+	        			this.locationDetails.push(currentValue);
+	        		});
+	        	}
+			    })
+			    .catch(err => {
+			    	console.log(err);
+			    });
 			}
 		},
 		components: {
-	      GoogleMap,
-	      ContactModal
+	      	GoogleMap,
+	      	ContactModal
 	    },
 	    created: function() {
 	    	this.getLocations();
@@ -70,9 +71,9 @@
 		background-color: #87CEFA;
 	}
 	ul {
-    list-style-type: none;
-    overflow: hidden;
-    background-color: #dddddd;
+	    list-style-type: none;
+	    overflow: hidden;
+	    background-color: #dddddd;
 	}
 
 	li {
@@ -81,13 +82,13 @@
 	}
 
 	li a {
-    display: block;
-    padding: 8px;
+	    display: block;
+	    padding: 8px;
 	}
 	li a:hover {
-    background-color: #87CEFA;
+    	background-color: #87CEFA;
 	}
 	.active {
-    background-color: #87CEFA;
+    	background-color: #87CEFA;
 	}
 </style>
