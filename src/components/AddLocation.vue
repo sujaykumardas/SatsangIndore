@@ -1,35 +1,33 @@
 <template>
   <div>
     <h1>Add A Location</h1>
-    <form>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Location Name:</label>
-            <input type="text" class="form-control" v-model="location.name">
-          </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Location Name:</label>
+          <input type="text" class="form-control" v-model="location.name">
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Location Address:</label>
-            <input type="text" class="form-control col-md-6" v-model="location.address">
-          </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Location Address:</label>
+          <input type="text" class="form-control col-md-6" v-model="location.address">
         </div>
-      </div><br />
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Nearby Location Address:</label>
-            <input type="text" class="form-control col-md-6" v-model="location.nearby_address">
-          </div>
-        </div>
-      </div><br />
-      <div class="form-group">
-        <button class="btn btn-primary" @click="addLocation()">Add Location</button>
       </div>
-    </form>
+    </div><br />
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Nearby Location Address:</label>
+          <input type="text" class="form-control col-md-6" v-model="location.nearby_address">
+        </div>
+      </div>
+    </div><br />
+    <div class="form-group">
+      <button class="btn btn-primary" @click="addLocation()">Add Location</button>
+    </div>
   </div>
 </template>
 
@@ -47,10 +45,11 @@ export default{
 	methods:{
 		addLocation: function(){
 			let uri = 'http://localhost:4000/locations/add';
-        this.axios.post(uri, this.location).then((response) => {
-          this.$router.push({name: 'HomePage'});
-        });
-      this.$router.push({name: 'HomePage'});
+      this.axios.post(uri, this.location).then((response) => {
+        this.$router.push({name: 'HomePage'});
+      }).catch(function (error) {
+        console.log(error);
+      });
 		}
 	}
 }

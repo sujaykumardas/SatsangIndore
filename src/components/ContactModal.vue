@@ -7,21 +7,39 @@
 
             <div class="modal-header">
               <slot name="header">
-                default header
+                <div>
+                  Contact Details
+                </div>
               </slot>
             </div>
 
             <div class="modal-body">
               <slot name="body">
-                default body
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr class="success">
+                        <th>Name</th>
+                        <th>Contact No.</th>
+                        <th>Designation</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="info">
+                        <td>New York</td>
+                        <td>USA</td>
+                        <td>USA</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </slot>
             </div>
 
             <div class="modal-footer">
               <slot name="footer">
-                default footer
                 <button class="modal-default-button" @click="$emit('close')">
-                  OK
+                  CLOSE
                 </button>
               </slot>
             </div>
@@ -57,7 +75,7 @@
   }
 
   .modal-container {
-    width: 300px;
+    width: 600px;
     margin: 0px auto;
     padding: 20px 30px;
     background-color: #fff;

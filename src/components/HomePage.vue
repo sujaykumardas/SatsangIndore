@@ -21,6 +21,7 @@
 		data() {
 			return{
 				locationDetails: [],
+				contactDetails: [],
 				showContactModal: false
 			}
 		},
@@ -37,6 +38,19 @@
 			    .catch(err => {
 			    	console.log(err);
 			    });
+			},
+			getContacts() {
+				let uri = 'http://localhost:4000/contacts';
+				this.axios.get(uri).then(response => {
+	        	if(response.data.length > 0){
+	        		response.data.forEach((currentValue, index) => {
+	        			this.contactDetails.push(currentValue);
+	        		});
+	        	}
+			    })
+			    .catch(err => {
+			    	console.log(err);
+			    });
 			}
 		},
 		components: {
@@ -45,6 +59,7 @@
 	    },
 	    created: function() {
 	    	this.getLocations();
+	    	this.getContacts();
 	    }
 	}
 </script>
